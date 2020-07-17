@@ -14,10 +14,17 @@ mongoose.connect(mongoURI, mongoConfig, (err) => {
     console.log('You are connected to Mongo')
 })
 
+//CONFIGURE CORS
+
+const corsOptions = {
+    origin: 'https://agitated-goldstine-e14b87.netlify.app/',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
+
 
 //MIDDLEWARE
 app.use(express.json())
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(express.static('public'))
 
 
