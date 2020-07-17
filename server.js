@@ -6,6 +6,7 @@ const mongoURI = process.env.mongoURI
 const PORT = process.env.PORT
 const mongoConfig = {useNewUrlParser: true, useUnifiedTopology: true}
 const Dog = require('./models/dog.js')
+const cors = require('cors')
 
 //CONNECT TO DATABASE
 const db = mongoose.connection
@@ -16,6 +17,7 @@ mongoose.connect(mongoURI, mongoConfig, (err) => {
 
 //MIDDLEWARE
 app.use(express.json())
+app.use(cors())
 app.use(express.static('public'))
 
 
