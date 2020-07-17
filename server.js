@@ -16,15 +16,21 @@ mongoose.connect(mongoURI, mongoConfig, (err) => {
 
 //CONFIGURE CORS
 
-const corsOptions = {
-    origin: 'https://agitated-goldstine-e14b87.netlify.app/',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+const whitelist = ['https://agitated-goldstine-e14b87.netlify.app', 'httpgit a://agitated-goldstine-e14b87.netlify.app']
+const corsOptionsDelegate = function (req, callback) {
+  var corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
   }
+  callback(null, corsOptions) // callback expects two parameters: error and options
+}
 
 
 //MIDDLEWARE
 app.use(express.json())
-app.use(cors(corsOptions))
+app.use(cors(corsOptionsDelegate))
 app.use(express.static('public'))
 
 
